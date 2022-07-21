@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "DemoDappEditor Editor Win64 Development (DemoDapp)",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp.json",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
+        },
+        {
+            "name": "Win32",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_Default.json",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

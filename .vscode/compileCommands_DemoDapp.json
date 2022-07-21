@@ -1,0 +1,72 @@
+[
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Plugins\\UnrealSequence\\Source\\UnrealSequence\\Private\\UnrealSequence.cpp",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\UnrealSequence.41.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Plugins\\UnrealSequence\\Source\\UnrealSequence\\Private\\UWalletWidget.cpp",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\UnrealSequence.41.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Plugins\\UnrealSequence\\Source\\UnrealSequence\\Public\\UnrealSequence.h",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\UnrealSequence.41.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Plugins\\UnrealSequence\\Source\\UnrealSequence\\Public\\UWalletWidget.h",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\UnrealSequence.41.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Plugins\\UnrealSequence\\Source\\UnrealSequence\\UnrealSequence.Build.cs",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\UnrealSequence.41.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\DemoDapp.Build.cs",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\DemoDapp.cpp",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\DemoDapp.h",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\DemoDappGameModeBase.cpp",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\DemoDappGameModeBase.h",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\Private\\MyClass.cpp",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\Private\\TestHUD.cpp",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\Public\\MyClass.h",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Source\\DemoDapp\\Public\\TestHUD.h",
+		"command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe\" @\"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\.vscode\\compileCommands_DemoDapp\\DemoDapp.213.rsp\"",
+		"directory": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Source"
+	}
+]

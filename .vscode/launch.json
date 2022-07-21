@@ -1,0 +1,152 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch DemoDapp (Debug)",
+			"request": "launch",
+			"program": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Binaries\\Win64\\UnrealGame-Win64-Debug.exe",
+			"preLaunchTask": "DemoDapp Win64 Debug Build",
+			"args": [
+			],
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0",
+			"stopAtEntry": false,
+			"console": "externalTerminal",
+			"type": "cppvsdbg",
+			"visualizerFile": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+			"sourceFileMap": {
+				"D:\build\++UE5\Sync": "F:\\Program Files\\ebig games\\UE_5.0"
+			}
+		},
+		{
+			"name": "Launch DemoDapp (DebugGame)",
+			"request": "launch",
+			"program": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Binaries\\Win64\\UnrealGame-Win64-DebugGame.exe",
+			"preLaunchTask": "DemoDapp Win64 DebugGame Build",
+			"args": [
+			],
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0",
+			"stopAtEntry": false,
+			"console": "externalTerminal",
+			"type": "cppvsdbg",
+			"visualizerFile": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+			"sourceFileMap": {
+				"D:\build\++UE5\Sync": "F:\\Program Files\\ebig games\\UE_5.0"
+			}
+		},
+		{
+			"name": "Launch DemoDapp (Development)",
+			"request": "launch",
+			"program": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Binaries\\Win64\\UnrealGame.exe",
+			"preLaunchTask": "DemoDapp Win64 Development Build",
+			"args": [
+			],
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0",
+			"stopAtEntry": false,
+			"console": "externalTerminal",
+			"type": "cppvsdbg",
+			"visualizerFile": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+			"sourceFileMap": {
+				"D:\build\++UE5\Sync": "F:\\Program Files\\ebig games\\UE_5.0"
+			}
+		},
+		{
+			"name": "Launch DemoDapp (Test)",
+			"request": "launch",
+			"program": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Binaries\\Win64\\UnrealGame-Win64-Test.exe",
+			"preLaunchTask": "DemoDapp Win64 Test Build",
+			"args": [
+			],
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0",
+			"stopAtEntry": false,
+			"console": "externalTerminal",
+			"type": "cppvsdbg",
+			"visualizerFile": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+			"sourceFileMap": {
+				"D:\build\++UE5\Sync": "F:\\Program Files\\ebig games\\UE_5.0"
+			}
+		},
+		{
+			"name": "Launch DemoDapp (Shipping)",
+			"request": "launch",
+			"program": "C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\Binaries\\Win64\\UnrealGame-Win64-Shipping.exe",
+			"preLaunchTask": "DemoDapp Win64 Shipping Build",
+			"args": [
+			],
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0",
+			"stopAtEntry": false,
+			"console": "externalTerminal",
+			"type": "cppvsdbg",
+			"visualizerFile": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+			"sourceFileMap": {
+				"D:\build\++UE5\Sync": "F:\\Program Files\\ebig games\\UE_5.0"
+			}
+		},
+		{
+			"name": "Launch DemoDappEditor (Debug)",
+			"request": "launch",
+			"program": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Binaries\\Win64\\UnrealEditor-Win64-Debug.exe",
+			"preLaunchTask": "DemoDappEditor Win64 Debug Build",
+			"args": [
+				"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\DemoDapp.uproject"
+			],
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0",
+			"stopAtEntry": false,
+			"console": "externalTerminal",
+			"type": "cppvsdbg",
+			"visualizerFile": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+			"sourceFileMap": {
+				"D:\build\++UE5\Sync": "F:\\Program Files\\ebig games\\UE_5.0"
+			}
+		},
+		{
+			"name": "Launch DemoDappEditor (DebugGame)",
+			"request": "launch",
+			"program": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Binaries\\Win64\\UnrealEditor-Win64-DebugGame.exe",
+			"preLaunchTask": "DemoDappEditor Win64 DebugGame Build",
+			"args": [
+				"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\DemoDapp.uproject"
+			],
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0",
+			"stopAtEntry": false,
+			"console": "externalTerminal",
+			"type": "cppvsdbg",
+			"visualizerFile": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+			"sourceFileMap": {
+				"D:\build\++UE5\Sync": "F:\\Program Files\\ebig games\\UE_5.0"
+			}
+		},
+		{
+			"name": "Launch DemoDappEditor (Development)",
+			"request": "launch",
+			"program": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+			"preLaunchTask": "DemoDappEditor Win64 Development Build",
+			"args": [
+				"C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\DemoDapp.uproject"
+			],
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0",
+			"stopAtEntry": false,
+			"console": "externalTerminal",
+			"type": "cppvsdbg",
+			"visualizerFile": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Extras\\VisualStudioDebugging\\Unreal.natvis",
+			"sourceFileMap": {
+				"D:\build\++UE5\Sync": "F:\\Program Files\\ebig games\\UE_5.0"
+			}
+		},
+		{
+			"name": "Generate Project Files",
+			"type": "coreclr",
+			"request": "launch",
+			"program": "F:\\Program Files\\ebig games\\UE_5.0\\Engine\\Binaries\\DotNET\\UnrealBuildTool\\UnrealBuildTool",
+			"args": [
+				"-projectfiles",
+				"-vscode",
+				"-project=C:\\Users\\Ari\\Documents\\Unreal Projects\\DemoDapp\\DemoDapp.uproject",
+				"-game",
+				"-engine"
+			],
+			"console": "externalTerminal",
+			"stopAtEntry": false,
+			"cwd": "F:\\Program Files\\ebig games\\UE_5.0"
+		}
+	]
+}
