@@ -29,4 +29,10 @@ private:
 
 	UFUNCTION()
 	void OnLoadStarted();
+
+	UFUNCTION()
+	void SendMessageToSequenceJS(FString message);
+
+	UFUNCTION()
+	void SendMessageToWallet(FString message);
 };

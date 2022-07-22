@@ -57,7 +57,7 @@ FString SEQUENCE_JS_HTML()
   </script>
   <script>
     console.log('Initializing wallet...');
-    sequence.sequence.initWallet('polygon');
+    sequence.sequence.initWallet('polygon', { walletAppURL: 'http://192.168.2.84:3333/'});
     console.log('Wallet initialized.');
     sequence.sequence
       .getWallet()

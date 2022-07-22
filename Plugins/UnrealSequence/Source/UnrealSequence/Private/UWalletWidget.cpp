@@ -67,11 +67,11 @@ void UWalletWidget::OnLoadStarted()
     UE_LOG(LogTemp, Warning, TEXT("[Sequence] Load started!"));
 }
 
-void UWalletWidget::PostMessageToPopup(FString JSON)
+void UWalletWidget::SendMesageToWallet(FString JSON)
 {
     UE_LOG(LogTemp, Warning, TEXT("[Sequence] Posting message to popup: %s"), *JSON);
     auto HackedWalletWebBrowser = static_cast<InternalUWebBrowser *>(WalletWebBrowser);
-    WebBrowserWidget
+    // WebBrowserWidget->
 }
 
 // /**
