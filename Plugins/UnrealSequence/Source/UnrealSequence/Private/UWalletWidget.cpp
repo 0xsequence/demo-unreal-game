@@ -42,15 +42,14 @@ void UWalletWidget::NativeConstruct()
 {
     Super::NativeConstruct();
     DummyWebBrowser->OnBeforePopup.AddDynamic(this, &UWalletWidget::OnCapturePopup);
-    auto ChildWebBrowser = reinterpret_cast<InternalUWebBrowser *>(&DummyWebBrowser);
+    auto ChildWebBrowser = static_cast<InternalUWebBrowser *>(DummyWebBrowser);
     auto WebBrowserWidget = ChildWebBrowser->GetBrowserWidget();
 
-    //???????????????
     if (WebBrowserWidget.IsValid())
     {
-        // DummyWebBrowser->OnLoadStarted.AddDynamic(this, &UWalletWidget::OnLoadStarted)
-        DummyWebBrowser->LoadString(SEQUENCE_JS_HTML(), "http://example.com/");
-        WebBrowserWidget->BindUObject("unreal", this);
+        // WebBrowserWidget->OnLoadStarted.AddDynamic(this, &UWalletWidget::OnLoadStarted);
+        WebBrowserWidget->LoadString(SEQUENCE_JS_HTML(), "http://example.com/");
+        WebBrowserWidget->BindUObject("walletTransport", this, true);
     }
     // auto addr = std::addressof(this);
     // UE_LOG(LogTemp, Warning, TEXT("address of this: %p, address of webbrwoserwidget: %p"), this, WebBrowserWidget);
@@ -59,9 +58,20 @@ void UWalletWidget::NativeConstruct()
 
 void UWalletWidget::OnCapturePopup(FString URL, FString Frame)
 {
-    GEngine->AddOnScreenDebugMessage(0, 20, FColor::Green, TEXT("Popup Captured!"));
-    GEngine->AddOnScreenDebugMessage(1, 20, FColor::Green, URL);
+    UE_LOG(LogTemp, Warning, TEXT("[Sequence] Popup Captured! %s"), *URL);
     WalletWebBrowser->LoadURL(URL);
+}
+
+void UWalletWidget::OnLoadStarted()
+{
+    UE_LOG(LogTemp, Warning, TEXT("[Sequence] Load started!"));
+}
+
+void UWalletWidget::PostMessageToPopup(FString JSON)
+{
+    UE_LOG(LogTemp, Warning, TEXT("[Sequence] Posting message to popup: %s"), *JSON);
+    auto HackedWalletWebBrowser = static_cast<InternalUWebBrowser *>(WalletWebBrowser);
+    WebBrowserWidget
 }
 
 // /**

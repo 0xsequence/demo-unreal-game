@@ -21,9 +21,6 @@ FString SEQUENCE_JS_HTML()
   <input type="submit" id="mysubmit" value="Go">
   </form>
   <script>
-    function exe(ev) {
-      eval(document.getElementById("textinput").value);
-    }
     function appendLog(log, color) {
       const el = document.createElement('div');
       el.innerText = `${log}`;
@@ -42,6 +39,14 @@ FString SEQUENCE_JS_HTML()
     console.log('Example log :)');
     console.warn('Example warn :)');
     console.error('Example err :)');
+
+    function exe(ev) {
+      try {
+      eval(document.getElementById("textinput").value);
+      } catch(e) {
+        console.error("Eval failed: " + e.message);
+      }
+    }
   </script>
   <script>
     console.log("Loading sequence JS");

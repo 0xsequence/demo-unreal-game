@@ -26,4 +26,7 @@ protected:
 private:
 	UFUNCTION()
 	void OnCapturePopup(FString URL, FString Frame);
+
+	UFUNCTION()
+	void OnLoadStarted();
 };
