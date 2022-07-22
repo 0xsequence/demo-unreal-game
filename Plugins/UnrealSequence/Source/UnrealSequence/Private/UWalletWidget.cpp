@@ -2,7 +2,11 @@
 
 #include "UWalletWidget.h"
 #include "Blueprint/WidgetTree.h"
+
 #include "WebBrowser.h"
+#include "SWebBrowser.h"
+#include "SWebBrowserView.h"
+
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
@@ -12,28 +16,45 @@
 
 #include "SequenceJSLoader.h"
 
-class Hack : public UWebBrowser
+class InternalUWebBrowser : public UWebBrowser
 {
 public:
-    SWebBrowser *GetBrowserWidget()
+    TSharedPtr<SWebBrowser> &GetBrowserWidget()
     {
-        return WebBrowserWidget.Get();
+        if (!WebBrowserWidget.IsValid())
+        {
+            UE_LOG(LogTemp, Warning, TEXT("[Sequence] getbrowserwidget:INVALID PTR"));
+        }
+        return WebBrowserWidget;
     }
 };
+
+// class InternalSWebBrowser : public SWebBrowser
+// {
+// public:
+//     SWebBrowserView *GetBrowserView()
+//     {
+//         return BrowserView.Get();
+//     }
+// };
 
 void UWalletWidget::NativeConstruct()
 {
     Super::NativeConstruct();
     DummyWebBrowser->OnBeforePopup.AddDynamic(this, &UWalletWidget::OnCapturePopup);
-    auto ChildWebBrowser = reinterpret_cast<Hack *>(&DummyWebBrowser);
+    auto ChildWebBrowser = reinterpret_cast<InternalUWebBrowser *>(&DummyWebBrowser);
     auto WebBrowserWidget = ChildWebBrowser->GetBrowserWidget();
-    if (WebBrowserWidget)
+
+    //???????????????
+    if (WebBrowserWidget.IsValid())
     {
-        // now, use this to create a transport object in the window scope
-        // wtf->BindUObject()
-        GEngine->AddOnScreenDebugMessage(2, 20, FColor::Green, TEXT("HOLY SHIT???"));
+        // DummyWebBrowser->OnLoadStarted.AddDynamic(this, &UWalletWidget::OnLoadStarted)
+        DummyWebBrowser->LoadString(SEQUENCE_JS_HTML(), "http://example.com/");
+        WebBrowserWidget->BindUObject("unreal", this);
     }
-    DummyWebBrowser->LoadString(SEQUENCE_JS_HTML(), "http://example.com/");
+    // auto addr = std::addressof(this);
+    // UE_LOG(LogTemp, Warning, TEXT("address of this: %p, address of webbrwoserwidget: %p"), this, WebBrowserWidget);
+    // GEngine->AddOnScreenDebugMessage(0, 200, FColor::Green, TEXT(((void const *)this).str()));
 }
 
 void UWalletWidget::OnCapturePopup(FString URL, FString Frame)
@@ -42,3 +63,23 @@ void UWalletWidget::OnCapturePopup(FString URL, FString Frame)
     GEngine->AddOnScreenDebugMessage(1, 20, FColor::Green, URL);
     WalletWebBrowser->LoadURL(URL);
 }
+
+// /**
+//  * Gets the source of the main frame as raw HTML.
+//  *
+//  * This method has to be called asynchronously by passing a callback function, which will be called at a later point when the
+//  * result is ready.
+//  * @param	Callback	A callable that takes a single string reference for handling the result.
+//  */
+// void GetSource(TFunction<void (const FString&)> Callback) const;
+
+// /**
+//  * Expose a UObject instance to the browser runtime.
+//  * Properties and Functions will be accessible from JavaScript side.
+//  * As all communication with the rendering procesis asynchronous, return values (both for properties and function results) are wrapped into JS Future objects.
+//  *
+//  * @param Name The name of the object. The object will show up as window.ue4.{Name} on the javascript side. If there is an existing object of the same name, this object will replace it. If bIsPermanent is false and there is an existing permanent binding, the permanent binding will be restored when the temporary one is removed.
+//  * @param Object The object instance.
+//  * @param bIsPermanent If true, the object will be visible to all pages loaded through this browser widget, otherwise, it will be deleted when navigating away from the current page. Non-permanent bindings should be registered from inside an OnLoadStarted event handler in order to be available before JS code starts loading.
+//  */
+// void BindUObject(const FString& Name, UObject* Object, bool bIsPermanent = true);

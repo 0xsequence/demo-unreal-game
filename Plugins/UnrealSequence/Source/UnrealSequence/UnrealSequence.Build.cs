@@ -39,7 +39,8 @@ public class UnrealSequence : ModuleRules
 				"Slate",
 				"SlateCore",
 				"UMG",
-				"WebBrowserWidget"
+				"WebBrowserWidget",
+				"WebBrowser"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

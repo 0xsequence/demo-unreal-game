@@ -1,6 +1,7 @@
+#include "SequenceJSLoader.h"
 #include "Internationalization/Text.h"
 
-static FString SEQUENCE_JS_HTML()
+FString SEQUENCE_JS_HTML()
 {
   return R"""(
 <!DOCTYPE html>
@@ -15,7 +16,14 @@ static FString SEQUENCE_JS_HTML()
 
 <body>
   <div>Initializing Sequence...</div>
+  <form onsubmit="event.preventDefault(); exe();">
+  <input type="text" id="textinput"></input>
+  <input type="submit" id="mysubmit" value="Go">
+  </form>
   <script>
+    function exe(ev) {
+      eval(document.getElementById("textinput").value);
+    }
     function appendLog(log, color) {
       const el = document.createElement('div');
       el.innerText = `${log}`;
