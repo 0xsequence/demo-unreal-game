@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sequence</title>
+</head>
+
+<!-- The contents of this file are stripped of newlines, so make sure all your JS ends with semicolons. -->
+
+<body>
+    <div>Initializing Sequence...</div>
+    <form onsubmit="event.preventDefault(); exe();">
+        <input type="text" id="textinput"></input>
+        <input type="submit" id="mysubmit" value="Go">
+    </form>
+    <script>
+        function exe(ev) {
+            try {
+                eval(document.getElementById("textinput").value);
+            } catch (e) {
+                console.error("Eval failed: " + e.message);
+            }
+        }
+    </script>
+    <script>
+        console.log("Loading Sequence JS...");
+    </script>
+
+    <!-- This is auto-replaced by the loader script with the contents of 0xsequence.umd.min.js -->
+    <script>/*%SEQUENCE_JS_HERE%*/</script>
+
+    <script>
+        console.log("Loaded Sequence JS!");
+    </script>
+    <script>
+        console.log('Initializing wallet...');
+        sequence.sequence.initWallet('polygon', {
+            walletAppURL: 'http://localhost:3333/',
+            transports: { unrealTransport: { enabled: true } }
+        });
+        console.log('Wallet initialized.');
+        sequence.sequence
+            .getWallet()
+            .connect({
+                app: 'Unreal Demo dApp',
+                authorize: true,
+                settings: {
+                    bannerUrl: 'https://sequence.xyz/built-in-security/animation.webp',
+                },
+                origin: undefined
+            })
+            .then(() => {
+                console.log("Connected!");
+                sequence.sequence
+                    .getWallet()
+                    .getSigner()
+                    .signMessage('Hello from unreal!');
+            }).catch(console.error);
+    </script>
+</body>
+
+</html>
