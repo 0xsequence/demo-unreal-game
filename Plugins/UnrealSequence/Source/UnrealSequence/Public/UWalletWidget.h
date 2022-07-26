@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "WebBrowser.h"
+#include "FConnectOptionsStruct.h"
 #include "UWalletWidget.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogSequence, Log, All);
@@ -13,11 +14,28 @@ UCLASS()
 class UNREALSEQUENCE_API UWalletWidget : public UUserWidget
 {
 	GENERATED_BODY()
-protected:
-	virtual void NativeConstruct() override;
+
+public:
+	// In this context, use the global variable `seq` to access the Sequence SDK.
+	UFUNCTION(BlueprintCallable, Category = "Sequence")
+	void ExecuteSequenceJS(FString JS);
+
+	UFUNCTION(BlueprintCallable, Category = "Sequence")
+	void Connect(FConnectOptionsStruct Options);
+
+	// TODO: expose the whole ProviderConfig struct - probably autogenerate from either SequenceJS code or a proto.ridl file.
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void SequencePopupOpened();
 
 	UPROPERTY(EditDefaultsOnly)
-	FString WalletURL;
+	FString DefaultNetwork = "polygon";
+
+	UPROPERTY(EditDefaultsOnly)
+	FString WalletAppURL = "https://sequence.app/";
+
+protected:
+	virtual void NativeConstruct() override;
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UWebBrowser *DummyWebBrowser;
@@ -45,25 +63,3 @@ private:
 	UFUNCTION()
 	void ErrorFromJS(FString Text);
 };
-
-// Cursed hack
-#define CONCATE_(X, Y) X##Y
-#define CONCATE(X, Y) CONCATE_(X, Y)
-
-#define ALLOW_ACCESS(CLASS, MEMBER, ...)                             \
-	template <typename Only, __VA_ARGS__ CLASS::*Member>             \
-	struct CONCATE(MEMBER, __LINE__)                                 \
-	{                                                                \
-		friend __VA_ARGS__ CLASS::*Access(Only *) { return Member; } \
-	};                                                               \
-	template <typename>                                              \
-	struct Only_##MEMBER;                                            \
-	template <>                                                      \
-	struct Only_##MEMBER<CLASS>                                      \
-	{                                                                \
-		friend __VA_ARGS__ CLASS::*Access(Only_##MEMBER<CLASS> *);   \
-	};                                                               \
-	template struct CONCATE(MEMBER, __LINE__)<Only_##MEMBER<CLASS>, &CLASS::MEMBER>
-
-#define ACCESS(OBJECT, MEMBER) \
-	(OBJECT).*Access((Only_##MEMBER<std::remove_reference<decltype(OBJECT)>::type> *)nullptr)

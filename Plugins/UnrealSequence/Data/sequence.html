@@ -11,10 +11,10 @@
 <!-- The contents of this file are stripped of newlines, so make sure all your JS ends with semicolons. -->
 
 <body>
-    <div>Initializing Sequence...</div>
     <form onsubmit="event.preventDefault(); exe();">
+        <div>js exec: </div>
         <input type="text" id="textinput"></input>
-        <input type="submit" id="mysubmit" value="Go">
+        <input type="submit" id="mysubmit" value="Eval">
     </form>
     <script>
         function exe(ev) {
@@ -25,40 +25,11 @@
             }
         }
     </script>
-    <script>
-        console.log("Loading Sequence JS...");
-    </script>
 
     <!-- This is auto-replaced by the loader script with the contents of 0xsequence.umd.min.js -->
     <script>/*%SEQUENCE_JS_HERE%*/</script>
-
     <script>
         console.log("Loaded Sequence JS!");
-    </script>
-    <script>
-        console.log('Initializing wallet...');
-        sequence.sequence.initWallet('polygon', {
-            walletAppURL: 'http://localhost:3333/',
-            transports: { unrealTransport: { enabled: true } }
-        });
-        console.log('Wallet initialized.');
-        sequence.sequence
-            .getWallet()
-            .connect({
-                app: 'Unreal Demo dApp',
-                authorize: true,
-                settings: {
-                    bannerUrl: 'https://sequence.xyz/built-in-security/animation.webp',
-                },
-                origin: undefined
-            })
-            .then(() => {
-                console.log("Connected!");
-                sequence.sequence
-                    .getWallet()
-                    .getSigner()
-                    .signMessage('Hello from unreal!');
-            }).catch(console.error);
     </script>
 </body>
 
