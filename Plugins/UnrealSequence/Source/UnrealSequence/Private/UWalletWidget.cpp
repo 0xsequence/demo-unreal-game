@@ -146,7 +146,7 @@ void UWalletWidget::NativeConstruct()
     }
     FString SequenceJSInit = TEXT("</script><script>window.seq = window.sequence.sequence; window.seq.initWallet('") +
                              DefaultNetwork + TEXT("', { walletAppURL:'") +
-                             WalletAppURL + TEXT("', transports: { unrealTransport: { enabled: true } } });") + TEXT("window.ue.sequencewallettransport.callbackfromjs(0, 'initialized');");
+                             WalletAppURL + TEXT("', transports: { unrealTransport: { enabled: true } } });") + TEXT("window.seq.getWallet().on('close', () => window.ue.sequencewallettransport.callbackfromjs(0, 'wallet_closed')); window.ue.sequencewallettransport.callbackfromjs(0, 'initialized');");
 
     // Create an HTML file that loads sequence.js
     FString FullSequenceHTML = LeftSequenceHTML + SequenceJS + SequenceJSInit + RightSequenceHTML;
@@ -172,8 +172,13 @@ void UWalletWidget::InternalExecuteSequenceJSWithCallback(FString JS, TFunction<
     }
     // Overflow is OK, since there will be less than u32::max entries in here at once, lol
     auto NextKey = LastJSCallbackKey++;
+    // Skip over 0, it's reserved for intrinsic keys.
+    if (LastJSCallbackKey == 0)
+    {
+        NextKey = LastJSCallbackKey++;
+    }
     JSCallbackMap.Add(NextKey, Callback);
-    // IIFE for scope.
+    // IIFE for scope, so user can make consts and stuff.
     auto IIFE = TEXT("(function() { function cb(val) { window.ue.sequencewallettransport.callbackfromjs(") + FString::FromInt(NextKey) + TEXT(", val) }; ") + JS + TEXT("})();");
     ExecuteSequenceJS(IIFE);
 }
@@ -181,7 +186,7 @@ void UWalletWidget::InternalExecuteSequenceJSWithCallback(FString JS, TFunction<
 void UWalletWidget::OnCapturePopup(FString URL, FString Frame)
 {
     WalletWebBrowser->LoadURL(URL);
-    OnSequenceWalletPopup.Broadcast();
+    OnSequenceWalletPopupOpened.Broadcast();
 }
 
 void UWalletWidget::SendMessageToWallet(FString JSON)
@@ -196,11 +201,21 @@ void UWalletWidget::SendMessageToSequenceJS(FString JSON)
 
 void UWalletWidget::CallbackFromJS(uint32 Key, FString Value)
 {
-    UE_LOG(LogSequence, Log, TEXT("Callback from JS: %i %s"), Key, *Value);
-    if (Key == 0 && Value == "initialized")
+    // Key is 0 only for intrinsic events.
+    if (Key == 0)
     {
-        UE_LOG(LogSequence, Warning, TEXT("OnLoadCompleted called!"));
-        OnSequenceInitialized.Broadcast();
+        if (Value == "initialized")
+        {
+            OnSequenceInitialized.Broadcast();
+        }
+        else if (Value == "wallet_closed")
+        {
+            OnSequenceWalletPopupClosed.Broadcast();
+        }
+        else
+        {
+            UE_LOG(LogSequence, Error, TEXT("Callback from JS with unknown intrinsic event value %s"), *Value);
+        }
     }
     else
     {

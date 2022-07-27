@@ -11,8 +11,7 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogSequence, Log, All);
 
 // DECLARE_DYNAMIC_DELEGATE(FJSCallback);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSequenceInitializedEvent);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSequenceWalletPopupEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSequenceWalletStateEvent);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FOnSequenceJSCallback, FString, JSReturnValue);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FOnSequenceIsConnectedCallback, bool, IsConnected);
 
@@ -38,11 +37,15 @@ public:
 
 	/* Called when the Sequence Wallet window opens. */
 	UPROPERTY(BlueprintAssignable, Category = "Sequence|Event")
-	FOnSequenceWalletPopupEvent OnSequenceWalletPopup;
+	FOnSequenceWalletStateEvent OnSequenceWalletPopupOpened;
+
+	/* Called when the Sequence Wallet window closes. */
+	UPROPERTY(BlueprintAssignable, Category = "Sequence|Event")
+	FOnSequenceWalletStateEvent OnSequenceWalletPopupClosed;
 
 	/* Called when the Sequence Wallet is initializd and ready to take JS commands. */
 	UPROPERTY(BlueprintAssignable, Category = "Sequence|Event")
-	FOnSequenceInitializedEvent OnSequenceInitialized;
+	FOnSequenceWalletStateEvent OnSequenceInitialized;
 
 	// TODO: expose the whole ProviderConfig struct - probably autogenerate from either SequenceJS code or a proto.ridl file.
 
