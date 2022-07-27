@@ -108,6 +108,11 @@ void UWalletWidget::GetIsConnected(const FOnSequenceIsConnectedCallback &BoolCal
                                           { BoolCallback.Execute(Val == "true"); });
 }
 
+void UWalletWidget::OpenWallet()
+{
+    ExecuteSequenceJS("seq.getWallet().openWallet();");
+}
+
 void UWalletWidget::NativeConstruct()
 {
     Super::NativeConstruct();
@@ -124,7 +129,7 @@ void UWalletWidget::NativeConstruct()
     FString SequenceHTML;
     FString SequenceHTMLFile = FPaths::Combine(ThisPluginDir + "/sequence.html");
     UE_LOG(LogSequence, Log, TEXT("Loading Sequence HTML from %s"), *SequenceHTMLFile);
-    if (!FileManager.FileExists(*SequenceHTMLFile) || !FFileHelper::LoadFileToString(SequenceHTML, *SequenceHTMLFile, FFileHelper::EHashOptions::None))
+    if (!FileManager.FileExists(*SequenceHTMLFile) || !FFileHelper::LoadFileToString(SequenceHTML, *SequenceHTMLFile))
     {
         UE_LOG(LogSequence, Fatal, TEXT("Failed to load Sequence HTML, can't initialize."));
     }
@@ -137,10 +142,18 @@ void UWalletWidget::NativeConstruct()
         UE_LOG(LogSequence, Fatal, TEXT("Malformed Sequence HTML, can't initialize. Missing JS placeholder."));
     }
 
+    FString EthersJS;
+    FString EthersJSFile = FPaths::Combine(ThisPluginDir + "/ethers-5.6.umd.min.js");
+    UE_LOG(LogSequence, Log, TEXT("Loading Ethers JS from %s"), *EthersJSFile);
+    if (!FileManager.FileExists(*EthersJSFile) || !FFileHelper::LoadFileToString(EthersJS, *EthersJSFile))
+    {
+        UE_LOG(LogSequence, Fatal, TEXT("Failed to load Ethers JS, can't initialize."));
+    }
+
     FString SequenceJS;
     FString SequenceJSFile = FPaths::Combine(ThisPluginDir + "/0xsequence.umd.min.js");
     UE_LOG(LogSequence, Log, TEXT("Loading Sequence JS from %s"), *SequenceJSFile);
-    if (!FileManager.FileExists(*SequenceJSFile) || !FFileHelper::LoadFileToString(SequenceJS, *SequenceJSFile, FFileHelper::EHashOptions::None))
+    if (!FileManager.FileExists(*SequenceJSFile) || !FFileHelper::LoadFileToString(SequenceJS, *SequenceJSFile))
     {
         UE_LOG(LogSequence, Fatal, TEXT("Failed to load Sequence JS, can't initialize."));
     }
@@ -149,7 +162,7 @@ void UWalletWidget::NativeConstruct()
                              WalletAppURL + TEXT("', transports: { unrealTransport: { enabled: true } } });") + TEXT("window.seq.getWallet().on('close', () => window.ue.sequencewallettransport.callbackfromjs(0, 'wallet_closed')); window.ue.sequencewallettransport.callbackfromjs(0, 'initialized');");
 
     // Create an HTML file that loads sequence.js
-    FString FullSequenceHTML = LeftSequenceHTML + SequenceJS + SequenceJSInit + RightSequenceHTML;
+    FString FullSequenceHTML = LeftSequenceHTML + EthersJS + SequenceJS + SequenceJSInit + RightSequenceHTML;
 
     // Capture popups from the sequence.js code, so we can open a second webview.
     DummyWebBrowser->OnBeforePopup.AddDynamic(this, &UWalletWidget::OnCapturePopup);

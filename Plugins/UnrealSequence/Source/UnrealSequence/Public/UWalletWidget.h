@@ -21,19 +21,25 @@ class UNREALSEQUENCE_API UWalletWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	// In this context, use the global variable `seq` to access the Sequence SDK.
+	// In this context, use the global variable `seq` to access the Sequence SDK, and `ethers` to access ethers.js.
 	UFUNCTION(BlueprintCallable, Category = "Sequence")
 	void ExecuteSequenceJS(FString JS);
 
-	// In this context, use the global variable `seq` to access the Sequence SDK. You MUST call the method "cb" to return a string, or you'll leak memory.
+	// In this context, use the global variable `seq` to access the Sequence SDK, and `ethers` to access ethers.js. You MUST call the method "cb" to return a string, or you'll leak memory.
 	UFUNCTION(BlueprintCallable, Category = "Sequence")
 	void ExecuteSequenceJSWithCallback(FString JS, const FOnSequenceJSCallback &Callback);
 
+	// Convenience method to connect without writing JS
 	UFUNCTION(BlueprintCallable, Category = "Sequence")
 	void Connect(FConnectOptionsStruct Options, const FOnSequenceJSCallback &Callback);
 
+	// Convenience method to check connection status without writing JS
 	UFUNCTION(BlueprintCallable, Category = "Sequence")
 	void GetIsConnected(const FOnSequenceIsConnectedCallback &Callback);
+
+	// Convenience method to open the wallet without writing JS
+	UFUNCTION(BlueprintCallable, Category = "Sequence")
+	void OpenWallet();
 
 	/* Called when the Sequence Wallet window opens. */
 	UPROPERTY(BlueprintAssignable, Category = "Sequence|Event")

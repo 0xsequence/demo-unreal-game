@@ -22,7 +22,7 @@ The Wallet blueprint you created will have events for when the wallet is request
 
 ## Initialization
 The wallet will be automatically initialized using the default network you configured in the widget settings.
-You must wait for the OnSequenceInitialized event before using any Sequnce functions.
+You must wait for the OnSequenceInitialized event before using any Sequence functions.
 ![](ReadmeImages/OnSequenceInitialized.png "The OnSequenceInitialized function.")
 
 
@@ -32,11 +32,17 @@ If it isn't, you can call the `Connect` function, and call `GetIsConnected` agai
 ![](ReadmeImages/ConnectWallet.png "Calling the Connect function.")
 
 ## Executing Sequence.js code, and getting callbacks
+
+For Sequence.JS docs, see https://docs.sequence.xyz/
+
 You can execute arbitrary Sequence.JS code with the function `Execute Sequence JS`. ![](ReadmeImages/ExecuteSequenceJS.png "Executing arbitrary Sequence JS.")
 The Sequence SDK is available at the global object named `seq`. You can access the Wallet object with `seq.getWallet()`.
 
 If you need to return data from a call, you can use the `Execute Sequence JS with Callback` function. In your JS code, call the function `cb` to return any arbitrary string to the Callback event you pass. ![](ReadmeImages/ExecuteSequenceJSWithCallback.png "Executing arbitrary Sequence JS with a Callback.")
 If you don't call the `cb` function, you will leak memory.
+
+### Important Note - Valid JS
+ExecuteJS will collapse all your JS to one line. Make sure every statement is semicolon-terminated, and you don't have any `//` comments, only `/* */` comments.
 
 ## Console.log, warning, and errors
 Logs from the browser contexts will show up in your Unreal log under the LogSequence category.
