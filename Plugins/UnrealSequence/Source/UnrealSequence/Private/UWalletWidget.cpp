@@ -20,7 +20,7 @@
 DEFINE_LOG_CATEGORY(LogSequence);
 
 // Begin evil, evil, evil, evil hackery that makes private & protected fields accessible on demand
-// This is the only way to accwess the internals of the UE5 WebBrowser stuff they don't expose,
+// This is the only way to access the internals of the UE5 WebBrowser stuff they don't expose,
 // which we need to write our API.
 // ----------------------------------------------------------------
 // Copied from https://gist.github.com/dabrahams/1528856
@@ -66,19 +66,18 @@ struct SWebBrowser_BrowserView
 };
 template class stow_private<SWebBrowser_BrowserView, &SWebBrowser::BrowserView>;
 
-// Use Evil Hackery to get an OnLoadCompleted FSimpleDelegate out of a SWebBrowserView
-struct SWebBrowserView_OnLoadCompleted
-{
-    typedef FSimpleDelegate(SWebBrowserView::*type);
-};
-template class stow_private<SWebBrowserView_OnLoadCompleted, &SWebBrowserView::OnLoadCompleted>;
-
 void UWalletWidget::ExecuteSequenceJS(FString JS)
 {
     DummyWebBrowser->ExecuteJavascript(JS);
 }
 
-void UWalletWidget::Connect(FConnectOptionsStruct Options)
+void UWalletWidget::ExecuteSequenceJSWithCallback(FString JS, const FOnSequenceJSCallback &Callback)
+{
+    InternalExecuteSequenceJSWithCallback(JS, [Callback](FString Val)
+                                          { Callback.ExecuteIfBound(Val); });
+}
+
+void UWalletWidget::Connect(FConnectOptionsStruct Options, const FOnSequenceJSCallback &Callback)
 {
     if (Options.App == "")
     {
@@ -89,10 +88,10 @@ void UWalletWidget::Connect(FConnectOptionsStruct Options)
     FString ConnectOptionsJSON =
         FString("{ app: \"") +
         Options.App +
-        FString("\", authorize: ") +
+        FString("\"") +
         (Options.Authorize
-             ? FString("true")
-             : FString("undefined")) +
+             ? FString(", authorize: true")
+             : FString("")) +
         FString("}");
 
     //     settings: {
@@ -100,9 +99,13 @@ void UWalletWidget::Connect(FConnectOptionsStruct Options)
     //     },
     //     origin: undefined
 
-    UE_LOG(LogSequence, Warning, TEXT("APP NAME seq.getWallet().connect(%s);"), *ConnectOptionsJSON)
+    ExecuteSequenceJSWithCallback("seq.getWallet().connect(" + ConnectOptionsJSON + ").then(cb).catch(cb);", Callback);
+}
 
-    DummyWebBrowser->ExecuteJavascript("seq.getWallet().connect(" + ConnectOptionsJSON + ");");
+void UWalletWidget::GetIsConnected(const FOnSequenceIsConnectedCallback &BoolCallback)
+{
+    InternalExecuteSequenceJSWithCallback("cb(`${seq.getWallet().isConnected()}`);", [BoolCallback](FString Val)
+                                          { BoolCallback.Execute(Val == "true"); });
 }
 
 void UWalletWidget::NativeConstruct()
@@ -141,10 +144,9 @@ void UWalletWidget::NativeConstruct()
     {
         UE_LOG(LogSequence, Fatal, TEXT("Failed to load Sequence JS, can't initialize."));
     }
-    FString SequenceJSInit = TEXT(
-                                 "</script><script>window.seq = window.sequence.sequence; window.seq.initWallet('") +
+    FString SequenceJSInit = TEXT("</script><script>window.seq = window.sequence.sequence; window.seq.initWallet('") +
                              DefaultNetwork + TEXT("', { walletAppURL:'") +
-                             WalletAppURL + TEXT("', transports: { unrealTransport: { enabled: true } } });");
+                             WalletAppURL + TEXT("', transports: { unrealTransport: { enabled: true } } });") + TEXT("window.ue.sequencewallettransport.callbackfromjs(0, 'initialized');");
 
     // Create an HTML file that loads sequence.js
     FString FullSequenceHTML = LeftSequenceHTML + SequenceJS + SequenceJSInit + RightSequenceHTML;
@@ -152,10 +154,6 @@ void UWalletWidget::NativeConstruct()
     // Capture popups from the sequence.js code, so we can open a second webview.
     DummyWebBrowser->OnBeforePopup.AddDynamic(this, &UWalletWidget::OnCapturePopup);
     auto DummyWebBrowserWidget = (*DummyWebBrowser).*stowed<UWebBrowser_WebBrowserWidget>::value;
-
-    auto DummyBrowserView = (*DummyWebBrowserWidget).*stowed<SWebBrowser_BrowserView>::value;
-    auto DummyBrowserViewOnLoad = (*DummyBrowserView).*stowed<SWebBrowserView_OnLoadCompleted>::value;
-    DummyBrowserViewOnLoad.BindUObject(this, &UWalletWidget::OnLoadCompleted);
 
     // Add our custom Unreal transport to both windows, and load the Sequence.js HTML.
     DummyWebBrowserWidget->BindUObject("sequencewallettransport", this, true);
@@ -165,15 +163,25 @@ void UWalletWidget::NativeConstruct()
     WalletWebBrowserWidget->BindUObject("sequencewallettransport", this, true);
 }
 
+void UWalletWidget::InternalExecuteSequenceJSWithCallback(FString JS, TFunction<void(FString)> Callback)
+{
+    if (!JS.Contains("cb"))
+    {
+        UE_LOG(LogSequence, Error, TEXT("ExecuteSequenceJSWithCallback called, but the JS doesn't contain a reference to cb: %s"), *JS);
+        return;
+    }
+    // Overflow is OK, since there will be less than u32::max entries in here at once, lol
+    auto NextKey = LastJSCallbackKey++;
+    JSCallbackMap.Add(NextKey, Callback);
+    // IIFE for scope.
+    auto IIFE = TEXT("(function() { function cb(val) { window.ue.sequencewallettransport.callbackfromjs(") + FString::FromInt(NextKey) + TEXT(", val) }; ") + JS + TEXT("})();");
+    ExecuteSequenceJS(IIFE);
+}
+
 void UWalletWidget::OnCapturePopup(FString URL, FString Frame)
 {
     WalletWebBrowser->LoadURL(URL);
-    SequencePopupOpened();
-}
-
-void UWalletWidget::OnLoadCompleted()
-{
-    UE_LOG(LogSequence, Warning, TEXT("OnLoadCompleted called!"));
+    OnSequenceWalletPopup.Broadcast();
 }
 
 void UWalletWidget::SendMessageToWallet(FString JSON)
@@ -184,6 +192,28 @@ void UWalletWidget::SendMessageToWallet(FString JSON)
 void UWalletWidget::SendMessageToSequenceJS(FString JSON)
 {
     DummyWebBrowser->ExecuteJavascript(TEXT("window.ue.sequencewallettransport.onmessagefromwallet(" + JSON + ");"));
+}
+
+void UWalletWidget::CallbackFromJS(uint32 Key, FString Value)
+{
+    UE_LOG(LogSequence, Log, TEXT("Callback from JS: %i %s"), Key, *Value);
+    if (Key == 0 && Value == "initialized")
+    {
+        UE_LOG(LogSequence, Warning, TEXT("OnLoadCompleted called!"));
+        OnSequenceInitialized.Broadcast();
+    }
+    else
+    {
+        auto val = JSCallbackMap.Find(Key);
+        if (val == nullptr)
+        {
+            UE_LOG(LogSequence, Error, TEXT("JS Callback called twice!"));
+            return;
+        }
+
+        (*val)(Value);
+        JSCallbackMap.Remove(Key);
+    }
 }
 
 void UWalletWidget::LogFromJS(FString Text)
